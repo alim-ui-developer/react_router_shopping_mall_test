@@ -8,6 +8,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import ClipLoader from "react-spinners/ClipLoader";
 import { productAction } from '../redux/actions/productAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../redux/reducers/productSlice';
 
 const ProductAll = (authenticate) => {  
   const [ isLoading, setIsLoading ] = useState(false);
@@ -17,17 +18,17 @@ const ProductAll = (authenticate) => {
   
   useEffect(() => {
     const getProducts = () => {
-      let searchQuery = query.get('q');
+      let searchQuery = query.get('q') || "";
       if(searchQuery === null){
         searchQuery = '';
       }
       setIsLoading(true);
-      dispatch(productAction.getProducts(searchQuery))
+      dispatch(fetchProducts(searchQuery))
       setIsLoading(false);
     };
     
     getProducts();
-  },[dispatch, query]);
+  },[query]);
 
   return (
     <Container className='procutAllWrap'>

@@ -4,8 +4,9 @@ import { Container, Row, Col } from 'react-bootstrap';
 import ProductDetailImageBox from '../component/ProductDetailImageBox';
 import ProductDetailTextBox from '../component/ProductDetailTextBox';
 import ClipLoader from "react-spinners/ClipLoader";
-import { productAction } from '../redux/actions/productAction';
+// import { productAction } from '../redux/actions/productAction';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsDetail } from '../redux/reducers/productSlice';
 
 const ProductDetail = () => {
   const [ isLoading, setIsLoading ] = useState(false);
@@ -13,16 +14,15 @@ const ProductDetail = () => {
   const product = useSelector((state) => state.product.selectedItem);
   // const [ product, setProduct ] = useState(null);
   const dispatch = useDispatch();
+  const getProductDetail = () => {
+    dispatch(fetchProductsDetail(id));
+  }
   
   useEffect(() => {
-    const getProductDetail = async () => {
-      setIsLoading(true);
-      dispatch(productAction.getProductDetail(id));
-      setIsLoading(false);
-    }
-    
+    setIsLoading(true);
     getProductDetail();
-  },[dispatch, id])
+    setIsLoading(false);
+  },[id])
 
   return (
     <>

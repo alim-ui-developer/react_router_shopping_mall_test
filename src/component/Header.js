@@ -2,20 +2,27 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass, faUser } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from "react-redux";
 import { Container, Navbar, Nav, Offcanvas } from 'react-bootstrap';
+import { authenticateAction } from "../redux/actions/authenticateAction";
 
-const Header = ({authenticate, setAuthenticate}) => {
+const Header = () => {
   const MENU_LIST = ['여성', 'Divided', '남성', '신생아/유아', '아동', 'H*M Home', 'Sale', '지속가능성'];
   
+  const dispatch = useDispatch();
+  const authenticate = useSelector((state) => state.auth.authenticate);
   // 로그인
   const navigate = useNavigate();
+
   const goToLogin = () => {
+    console.log(authenticate)
     navigate("/login");
   }
 
   // 로그아웃
   const goToLogout = () => {
-    setAuthenticate(false);
+    // setAuthenticate(false);
+    dispatch(authenticateAction.logout(authenticate));
     alert('로그아웃 되었습니다!')
   }
 
